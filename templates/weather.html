@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>weather app</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="weather-container">
+        <h1 class="weather-title">Weather in</h1>
+        <h2 class="city-name">{{ city }}</h2>
+        <div class="weather-icon">
+            {{ icon }}
+        </div>
+
+        <div class="condition">
+            {{ condition }}
+        </div>
+
+        <div class="temperature">
+            {{ temperature }}°C
+        </div>
+
+        <div class="details">
+            <div class = "detail-card">
+                <div class="detail-icon">💧</div>
+                <div class="detail-value">{{ humidity }}%</div>
+                <div class="detail-label">Humidity</div>
+            </div>
+            <div class="detail-card">
+                <div class="detail-icon">💨</div>
+                <div class="detail-value">{{ wind }} km/h</div>
+                <div class="detail-label">Wind</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
