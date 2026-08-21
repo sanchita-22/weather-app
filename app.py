@@ -69,6 +69,7 @@ def weather():
         humidity=humidity,
         wind=wind,
         condition=condition,
-        icon=icon
+        icon=icon,
+        weather_code=weather_code
 )
 app.run(debug=True)
