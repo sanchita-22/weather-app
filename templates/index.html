@@ -8,9 +8,26 @@
         <link href="https://fonts.googleapis.com/css2?family=Allura&display=swap" rel="stylesheet">
     </head>
 <body>
-    <div class="weather-container">
+    <div class="weather-container home-page">
         <h1 class="app-title">Weather App</h1>
-        <div class="home-icon">🌤️</div>
+        <div class="home-icon">
+            <svg class="pixel-weather" viewBox="0 0 128 128">
+                <!-- Sun -->
+                <rect x="44" y="20" width="40" height="40" fill="#F4B942"/>
+                <rect x="36" y="28" width="56" height="24" fill="#F4B942"/>
+
+                <!-- Sun rays -->
+                <rect x="56" y="8" width="16" height="12" fill="#F4B942"/>
+                <rect x="56" y="60" width="16" height="12" fill="#F4B942"/>
+                <rect x="28" y="36" width="12" height="16" fill="#F4B942"/>
+                <rect x="88" y="36" width="12" height="16" fill="#F4B942"/>
+
+                <!-- Cloud -->
+                <rect x="28" y="68" width="72" height="28" fill="#D7EEF5"/>
+                <rect x="40" y="60" width="48" height="36" fill="#D7EEF5"/>
+                <rect x="52" y="52" width="24" height="44" fill="#D7EEF5"/>
+            </svg>
+        </div>
         <p class="subtitle">Check the weather for any city</p>
         <form action="/weather" method="POST" class="search-form">
             <input type="text" name="city" placeholder="Enter city">

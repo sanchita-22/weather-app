@@ -8,20 +8,56 @@
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
+    <div class="pixel-scene weather-{{ weather_code }}">
+        <div class="pixel-sun"></div>
+        <div class="pixel-cloud cloud-1"></div>
+        <div class="pixel-cloud cloud-2"></div> 
+        <div class="storm-cloud cloud-left"></div>
+        <div class="storm-cloud cloud-right"></div>    
+        <div class="pixel-mountains"></div>
+        <div class="pixel-trees">
+            <span class="tree tree-1"></span>
+            <span class="tree tree-2"></span>
+            <span class="tree tree-3"></span>
+            <span class="tree tree-4"></span>
+        </div>
+
+        <div class="pixel-ground"></div>
+    </div>
     <div class="weather-container">
         <h1 class="weather-title">Weather in</h1>
-        <h2 class="city-name">{{ city }}</h2>
+        <h2 class="city-name">📍 {{ city }}</h2>
         <div class="weather-icon">
-            {{ icon }}
+            <svg class="pixel-weather" viewBox="0 0 128 128">
+
+                <!-- Sun -->
+                <rect x="44" y="20" width="40" height="40" fill="#F4B942"/>
+                <rect x="36" y="28" width="56" height="24" fill="#F4B942"/>
+
+                <rect x="56" y="8" width="16" height="12" fill="#F4B942"/>
+                <rect x="56" y="60" width="16" height="12" fill="#F4B942"/>
+                <rect x="28" y="36" width="12" height="16" fill="#F4B942"/>
+                <rect x="88" y="36" width="12" height="16" fill="#F4B942"/>
+
+                <!-- Cloud -->
+                <rect x="28" y="68" width="72" height="28" fill="#D7EEF5"/>
+                <rect x="40" y="60" width="48" height="36" fill="#D7EEF5"/>
+                <rect x="52" y="52" width="24" height="44" fill="#D7EEF5"/>
+
+            </svg>
         </div>
 
-        <div class="condition">
-            {{ condition }}
-        </div>
+        <div class="weather-main">
 
-        <div class="temperature">
-            {{ temperature }}°C
-        </div>
+            <div class="condition">
+                {{ condition }}
+            </div>
+
+            <div class="temperature">
+                {{ temperature }}°C
+            </div>
+
+</div>
 
         <div class="details">
             <div class = "detail-card">
