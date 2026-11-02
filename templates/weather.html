@@ -1,76 +1,88 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
 <head>
-    <title>weather app</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f4d99e">
+    <meta name="description" content="Current weather and a five-day forecast in {{ location_label }}.">
+    <title>Weather in {{ city }} — Pixel Weather</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
-<body>
-    <div class="pixel-scene weather-{{ weather_code }}">
+<body class="weather-body">
+    <div class="pixel-scene scene-{{ scene_class }}{% if not is_day %} night{% endif %}" aria-hidden="true">
         <div class="pixel-sun"></div>
         <div class="pixel-cloud cloud-1"></div>
-        <div class="pixel-cloud cloud-2"></div> 
-        <div class="storm-cloud cloud-left"></div>
-        <div class="storm-cloud cloud-right"></div>    
+        <div class="pixel-cloud cloud-2"></div>
         <div class="pixel-mountains"></div>
         <div class="pixel-trees">
-            <span class="tree tree-1"></span>
-            <span class="tree tree-2"></span>
-            <span class="tree tree-3"></span>
-            <span class="tree tree-4"></span>
+            <span class="tree tree-1"></span><span class="tree tree-2"></span>
+            <span class="tree tree-3"></span><span class="tree tree-4"></span>
         </div>
-
         <div class="pixel-ground"></div>
     </div>
-    <div class="weather-container">
-        <h1 class="weather-title">Weather in</h1>
-        <h2 class="city-name">📍 {{ city }}</h2>
-        <div class="weather-icon">
-            <svg class="pixel-weather" viewBox="0 0 128 128">
 
-                <!-- Sun -->
-                <rect x="44" y="20" width="40" height="40" fill="#F4B942"/>
-                <rect x="36" y="28" width="56" height="24" fill="#F4B942"/>
+    <main class="weather-container result-card">
+        <header class="result-header">
+            <a class="back-link" href="{{ url_for('home') }}">← New search</a>
+            <p class="eyebrow">✦ PIXEL WEATHER STATION ✦</p>
+            <h1 class="weather-title">Weather report</h1>
+            <h2 class="city-name">{{ city }}</h2>
+            {% if location_label and location_label != city %}<p class="location-subtitle">{{ location_label }}</p>{% endif %}
+        </header>
 
-                <rect x="56" y="8" width="16" height="12" fill="#F4B942"/>
-                <rect x="56" y="60" width="16" height="12" fill="#F4B942"/>
-                <rect x="28" y="36" width="12" height="16" fill="#F4B942"/>
-                <rect x="88" y="36" width="12" height="16" fill="#F4B942"/>
+        <section class="current-weather" aria-label="Current weather">
+            <div class="weather-icon" aria-hidden="true">{{ icon }}</div>
+            <p class="condition">{{ condition }}</p>
+            <p class="temperature">{{ temperature }}<span>{{ temperature_unit }}</span></p>
+            <p class="feels-like">Feels like {{ feels_like }}{{ temperature_unit }}</p>
+        </section>
 
-                <!-- Cloud -->
-                <rect x="28" y="68" width="72" height="28" fill="#D7EEF5"/>
-                <rect x="40" y="60" width="48" height="36" fill="#D7EEF5"/>
-                <rect x="52" y="52" width="24" height="44" fill="#D7EEF5"/>
+        <section class="details" aria-label="Weather details">
+            <article class="detail-card">
+                <span class="detail-icon" aria-hidden="true">💧</span>
+                <span class="detail-value">{{ humidity }}%</span>
+                <span class="detail-label">Humidity</span>
+            </article>
+            <article class="detail-card">
+                <span class="detail-icon" aria-hidden="true">💨</span>
+                <span class="detail-value">{{ wind }} <small>{{ wind_unit }}</small></span>
+                <span class="detail-label">Wind speed</span>
+            </article>
+            <article class="detail-card">
+                <span class="detail-icon" aria-hidden="true">☔</span>
+                <span class="detail-value">{{ precipitation }} <small>mm</small></span>
+                <span class="detail-label">Precipitation</span>
+            </article>
+        </section>
 
-            </svg>
-        </div>
+        <section class="sun-times" aria-label="Sunrise and sunset">
+            <div><span aria-hidden="true">🌅</span><span class="sun-label">Sunrise</span><strong>{{ sunrise }}</strong></div>
+            <div><span aria-hidden="true">🌇</span><span class="sun-label">Sunset</span><strong>{{ sunset }}</strong></div>
+        </section>
 
-        <div class="weather-main">
-
-            <div class="condition">
-                {{ condition }}
+        {% if forecast %}
+        <section class="forecast-section" aria-labelledby="forecast-title">
+            <h3 id="forecast-title" class="section-title">5-DAY FORECAST</h3>
+            <div class="forecast-grid">
+                {% for day in forecast %}
+                <article class="forecast-day">
+                    <p class="forecast-date">{{ day.date }}</p>
+                    <span class="forecast-icon" role="img" aria-label="{{ day.condition }}">{{ day.icon }}</span>
+                    <p class="forecast-temps"><strong>{{ day.high if day.high is not none else '—' }}°</strong><span>{{ day.low if day.low is not none else '—' }}°</span></p>
+                    <p class="forecast-rain">☂ {{ day.rain_chance if day.rain_chance is not none else '—' }}%</p>
+                </article>
+                {% endfor %}
             </div>
+        </section>
+        {% endif %}
 
-            <div class="temperature">
-                {{ temperature }}°C
-            </div>
-
-</div>
-
-        <div class="details">
-            <div class = "detail-card">
-                <div class="detail-icon">💧</div>
-                <div class="detail-value">{{ humidity }}%</div>
-                <div class="detail-label">Humidity</div>
-            </div>
-            <div class="detail-card">
-                <div class="detail-icon">💨</div>
-                <div class="detail-value">{{ wind }} km/h</div>
-                <div class="detail-label">Wind</div>
-            </div>
-        </div>
-    </div>
+        <footer class="result-footer">
+            {% if updated_at %}<span>Updated {{ updated_at.replace('T', ' ') }}</span>{% endif %}
+            <span>Weather data by <a href="https://open-meteo.com/" target="_blank" rel="noopener noreferrer">Open-Meteo</a></span>
+        </footer>
+    </main>
 </body>
 </html>

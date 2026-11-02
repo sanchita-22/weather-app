@@ -1,38 +1,43 @@
-<!DOCTYPE html>
-<htmnl>
-    <head>
-        <title> WEATHER APP</title>
-        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Allura&display=swap" rel="stylesheet">
-    </head>
-<body>
-    <div class="weather-container home-page">
-        <h1 class="app-title">Weather App</h1>
-        <div class="home-icon">
-            <svg class="pixel-weather" viewBox="0 0 128 128">
-                <!-- Sun -->
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f4d99e">
+    <meta name="description" content="A little pixel-art weather station. Search a city for current conditions and a five-day forecast.">
+    <title>Pixel Weather — Your little weather station</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="home-body">
+    <main class="weather-container home-card">
+        <p class="eyebrow">✦ YOUR LITTLE WEATHER STATION ✦</p>
+        <h1 class="app-title">Pixel Weather</h1>
+        <div class="home-icon" aria-hidden="true">
+            <svg class="pixel-weather" viewBox="0 0 128 128" role="img">
                 <rect x="44" y="20" width="40" height="40" fill="#F4B942"/>
                 <rect x="36" y="28" width="56" height="24" fill="#F4B942"/>
-
-                <!-- Sun rays -->
                 <rect x="56" y="8" width="16" height="12" fill="#F4B942"/>
                 <rect x="56" y="60" width="16" height="12" fill="#F4B942"/>
                 <rect x="28" y="36" width="12" height="16" fill="#F4B942"/>
                 <rect x="88" y="36" width="12" height="16" fill="#F4B942"/>
-
-                <!-- Cloud -->
                 <rect x="28" y="68" width="72" height="28" fill="#D7EEF5"/>
                 <rect x="40" y="60" width="48" height="36" fill="#D7EEF5"/>
                 <rect x="52" y="52" width="24" height="44" fill="#D7EEF5"/>
             </svg>
         </div>
-        <p class="subtitle">Check the weather for any city</p>
-        <form action="/weather" method="POST" class="search-form">
-            <input type="text" name="city" placeholder="Enter city">
-            <button type="submit">Search</button>
+        <p class="subtitle">A tiny forecast for wherever you are.</p>
+        <form action="{{ url_for('weather') }}" method="post" class="search-form">
+            <label class="sr-only" for="city">City name</label>
+            <input id="city" type="text" name="city" placeholder="Try Delhi, Tokyo, London…" value="{{ city or '' }}" maxlength="100" autocomplete="off" required>
+            <button type="submit">Search <span aria-hidden="true">→</span></button>
         </form>
-    </div>
+        {% if error %}<p class="error-message" role="alert">{{ error }}</p>{% endif %}
+        <p class="home-footnote">CURRENT WEATHER · 5-DAY OUTLOOK</p>
+    </main>
+    <div class="decor-cloud cloud-one" aria-hidden="true"></div>
+    <div class="decor-cloud cloud-two" aria-hidden="true"></div>
 </body>
-</htmnl>
+</html>
